@@ -1,43 +1,29 @@
-# The Justin Sun Prize
+# JSP-000847 / Erdős 1017: a uniform dense clique-partition saving
 
-A public repository for The Justin Sun Prize: recognizing mathematical breakthroughs and machine-verifiable formal proofs through a problem-list-based academic bounty mechanism.
+For every finite simple graph with `n` vertices and `e` edges, this project proves
 
-[About the prize](docs/about.md)
+```
+5000 * cp(G) + e(G) <= 5001 * floor(n^2 / 4).
+```
 
-## Explore
+Here `cp(G)` is the minimum number of complete subgraphs in an **exact edge partition**. The proof also produces an actual partition with this bound. For `e > A = floor(n^2/4)`, it gives the explicit saving
 
-| Topic | Source |
-| --- | --- |
-| Purpose, scope, and governance | [About](docs/about.md) |
-| Submission, challenges, claims and 14-day public review | [Award process](docs/award-process.md) |
-| Award assessment | [Grading](docs/grading.md) |
-| Recipients and attribution | [Attribution](docs/attribution.md) |
-| Formal verification and review | [Verification](docs/verification.md) |
-| Problem bank: 1,022 problems | [Problems](problems/README.md) |
-| Confirmed, publicly announced awards | [Awards](awards/README.md) |
-| Public candidates | [Candidates](candidates/README.md) |
+```
+cp(G) <= A - ceil((e-A)/5000).
+```
 
-Award entries are confirmed and publicly announced decisions; candidates are tracked separately. The repository publishes public records; detailed assessment criteria and deliberations are not included.
+This supplies a nontrivial sharpening for every positive edge surplus in Erdős’s [1971 question, printed page 101, item 11](https://www.renyi.hu/~p_erdos/1971-25.pdf). The bound applies to arbitrary finite vertex types, including the empty graph, with both parities and every density covered.
 
-## Participate
+- Main proof: [Erdos1017/Final.lean](Erdos1017/Final.lean), `Erdos1017.exists_partition_dense_saving` and `Erdos1017.uniform_integer_dense_saving`.
+- Exact partition and statement definitions: [Erdos1017/Definitions.lean](Erdos1017/Definitions.lean).
+- Mathematical proof: [MATHEMATICS.md](MATHEMATICS.md).
+- Scope and attribution: [SCOPE_AND_ATTRIBUTION.md](SCOPE_AND_ATTRIBUTION.md).
+- Reproduction and audit: [VERIFICATION.md](VERIFICATION.md).
 
-We recommend [checking existing PRs for the same problem and contribution type](CONTRIBUTING.md#before-opening-a-pr)
-before submitting to help avoid duplicate work.
+## Verified source version
 
-Submit complete solution and proof references through the
-[PR template](.github/PULL_REQUEST_TEMPLATE.md). Read the
-[contribution guidelines](CONTRIBUTING.md) for evidence requirements and the
-[award process](docs/award-process.md) for claims, identity checks, public review
-and award delivery. Current candidates appear in the
-[public notice table](candidates/README.md#candidate-register).
+On 2026-10-03, all **23 project modules** were freshly rebuilt with Lean **4.33.0** and the pinned Mathlib revision. The separate [Audit.lean](Audit.lean) check also exited successfully. The weighted foundation and both final endpoints depend only on `propext`, `Classical.choice`, and `Quot.sound`.
 
-Use the [issue forms](.github/ISSUE_TEMPLATE/) to recommend a problem, claim your
-own contribution, correct a record or raise a dispute. Follow the
-[Code of Conduct](CODE_OF_CONDUCT.md) and keep private identity, contact and
-payment details out of public issues.
+The 24 Lean files and pinned project configuration published here are byte-identical to that verified source set. [SOURCE_SHA256SUMS.txt](SOURCE_SHA256SUMS.txt) binds the logs to the source bytes. Early development comments containing “UNCOMPILED” are historical comments retained to preserve those exact checked bytes; [the final verification report](VERIFICATION.md) and [logs](logs/) record the current successful result.
 
-## Repository maintenance
-
-Maintain candidates and announced awards in Markdown through reviewed PRs. See the [record guide](docs/records.md) for evidence and optional templates.
-
-Code: [LICENSE](LICENSE). Documentation and data: [LICENSE-CONTENT](LICENSE-CONTENT).
+Lean formalization: [@peilinliu66-dev](https://github.com/peilinliu66-dev), with AI assistance. The mathematical foundations and adapted proof route are attributed explicitly in [SCOPE_AND_ATTRIBUTION.md](SCOPE_AND_ATTRIBUTION.md). Original formalization sources are provided under the [Apache 2.0 license](LICENSE).
